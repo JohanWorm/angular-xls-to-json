@@ -1,4 +1,15 @@
 <hello name="{{ name }}"></hello>
 <p>
-  Start editing to see some magic happen :)
+  <!-- Input file -->
+  <input type="file" (change)="onChangeInputFile($event)" />
 </p>
+<hr>
+<div>
+  <!-- Data JSON -->
+  <h3>JSON RESULT:</h3>
+  <br>
+  <div *ngFor="let obj of jsonData; let i = index;">
+    <div>{{obj | json}}</div>
+    <hr>
+  </div>
+</div>
