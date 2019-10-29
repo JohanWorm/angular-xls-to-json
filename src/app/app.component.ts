@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';  
 
 @Component({
   selector: 'my-app',
@@ -8,13 +9,14 @@ import * as XLSX from 'xlsx';
 })
 export class AppComponent  {
   name = 'XLSX TO JSON';
-  jsonData;
+  data;
 
   onChangeInputFile(eventFile: Event) {
     const reader: FileReader = new FileReader();
     const file = eventFile.target['files'][0];
 
     reader.onload = (e: any) => {
+      this.clearJsonData();
       /* read workbook */
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, {type: 'binary'});
@@ -24,9 +26,19 @@ export class AppComponent  {
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
       /* save data */
-      this.jsonData = (XLSX.utils.sheet_to_json(ws, {header: 1}));
-      console.log(this.jsonData );
+      this.data = (XLSX.utils.sheet_to_json(ws, {header: 1}));
+      console.log(this.data );
+
+      /* download json file */
+      this.data = JSON.stringify(this.data);  
+      const data: Blob = new Blob([this.data], { type: "application/json" });  
+      FileSaver.saveAs(data, "JsonFile" + new Date().getTime() + '.json');  
     };
     reader.readAsBinaryString(file);
   }
+
+  clearJsonData() {
+    this.data = [];
+  }
+
 }

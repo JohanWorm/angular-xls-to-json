@@ -5,10 +5,22 @@
 </p>
 <hr>
 <div>
-  <!-- Data JSON -->
-  <h3>JSON RESULT:</h3>
+  <a href="#json">GO JSON</a>
   <br>
-  <div *ngFor="let obj of jsonData; let i = index;">
+  <a href="#jsonList">GO JSON LIST</a>
+  <br>
+  <a href="#">COPY JSON</a>
+  <hr>
+  <!-- Data JSON -->
+  <h3 id="json">JSON RESULT:</h3>
+  <br>
+  <div (click)="selectJson(this)">
+    {{data | json}}
+  </div>
+  <hr>
+  <h3 id="jsonList">JSON RESULT LIST:</h3>
+  <br>
+  <div *ngFor="let obj of data; let i = index;">
     <div>{{obj | json}}</div>
     <hr>
   </div>
